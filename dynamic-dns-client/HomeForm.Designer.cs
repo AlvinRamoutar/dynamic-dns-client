@@ -31,13 +31,13 @@
             this.addNewProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modifyProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabControl = new System.Windows.Forms.TabControl();
+            this.tab_Log = new System.Windows.Forms.TabPage();
             this.richTBox_LogBox = new System.Windows.Forms.RichTextBox();
             this.lbl_Status = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
-            this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.tabControl.SuspendLayout();
+            this.tab_Log.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -100,31 +100,31 @@
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
-            // tabControl1
+            // tabControl
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Location = new System.Drawing.Point(0, 27);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(464, 216);
-            this.tabControl1.TabIndex = 2;
+            this.tabControl.Controls.Add(this.tab_Log);
+            this.tabControl.Location = new System.Drawing.Point(0, 27);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(464, 233);
+            this.tabControl.TabIndex = 2;
             // 
-            // tabPage1
+            // tab_Log
             // 
-            this.tabPage1.Controls.Add(this.richTBox_LogBox);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(456, 190);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tab_Log.Controls.Add(this.richTBox_LogBox);
+            this.tab_Log.Location = new System.Drawing.Point(4, 22);
+            this.tab_Log.Name = "tab_Log";
+            this.tab_Log.Padding = new System.Windows.Forms.Padding(3);
+            this.tab_Log.Size = new System.Drawing.Size(456, 207);
+            this.tab_Log.TabIndex = 0;
+            this.tab_Log.Text = "Log";
+            this.tab_Log.UseVisualStyleBackColor = true;
             // 
             // richTBox_LogBox
             // 
-            this.richTBox_LogBox.Location = new System.Drawing.Point(34, 21);
+            this.richTBox_LogBox.Location = new System.Drawing.Point(0, 0);
             this.richTBox_LogBox.Name = "richTBox_LogBox";
-            this.richTBox_LogBox.Size = new System.Drawing.Size(360, 125);
+            this.richTBox_LogBox.Size = new System.Drawing.Size(456, 207);
             this.richTBox_LogBox.TabIndex = 0;
             this.richTBox_LogBox.Text = "";
             // 
@@ -134,9 +134,8 @@
             this.lbl_Status.Location = new System.Drawing.Point(5, 263);
             this.lbl_Status.Margin = new System.Windows.Forms.Padding(0);
             this.lbl_Status.Name = "lbl_Status";
-            this.lbl_Status.Size = new System.Drawing.Size(35, 13);
+            this.lbl_Status.Size = new System.Drawing.Size(0, 13);
             this.lbl_Status.TabIndex = 3;
-            this.lbl_Status.Text = "label1";
             // 
             // HomeForm
             // 
@@ -144,15 +143,15 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(464, 281);
             this.Controls.Add(this.lbl_Status);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.tabControl);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "HomeForm";
             this.Text = "HomeForm";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
+            this.tabControl.ResumeLayout(false);
+            this.tab_Log.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -168,8 +167,8 @@
         private System.Windows.Forms.ToolStripMenuItem addNewProfileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem modifyProfileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.TabPage tab_Log;
         private System.Windows.Forms.Label lbl_Status;
         public System.Windows.Forms.RichTextBox richTBox_LogBox;
     }
