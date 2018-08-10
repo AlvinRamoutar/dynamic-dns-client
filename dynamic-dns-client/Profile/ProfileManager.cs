@@ -30,6 +30,11 @@ namespace dynamic_dns_client {
             try {
                 xmlDoc.Load(Properties.Settings.Default.ProfileDataFile);
             } catch (XmlException) {
+                Logger.Instance.NewEntry("Problem loading profile data from " + Properties.Settings.Default.ProfileDataFile +
+                    ". Perhaps the file has been modified?", "ProfileManager", System.Drawing.Color.Red);
+                return;
+            } catch(System.IO.FileNotFoundException) {
+                Logger.Instance.NewEntry("Creating new file for Managed Profiles", "ProfileManager", System.Drawing.Color.Black);
                 return;
             }
 
@@ -43,7 +48,7 @@ namespace dynamic_dns_client {
             Time pUpdatePeriodType = Time.Seconds;
             string pIPAddress = "";
             bool pAutoDetectIP = false;
-            List<Profile.Trigger> pTriggers = null;
+            List<Trigger> pTriggers = null;
             string pTriggerLoc = "";
             string pTriggerArgs = "";
 
@@ -61,7 +66,7 @@ namespace dynamic_dns_client {
                 pAutoDetectIP = Convert.ToBoolean(p.SelectSingleNode("AutoDetectIP").InnerText);
 
                 if (p.SelectSingleNode("Triggers").HasChildNodes) {
-                    pTriggers = new List<Profile.Trigger>();
+                    pTriggers = new List<Trigger>();
 
                     foreach (XmlNode tU in p.SelectSingleNode("Triggers").ChildNodes) {
                         foreach (XmlNode t in tU.ChildNodes) {
@@ -70,7 +75,7 @@ namespace dynamic_dns_client {
                             else if (t.Name == "TriggerArgs")
                                 pTriggerArgs = t.InnerText;
                         }
-                        pTriggers.Add(new Profile.Trigger(pTriggerLoc, pTriggerArgs));
+                        pTriggers.Add(new Trigger(pTriggerLoc, pTriggerArgs));
                     }
                 }
                 if(pTriggers == null)
@@ -82,10 +87,12 @@ namespace dynamic_dns_client {
                 pTriggers = null;
             }
 
+            Logger.Instance.NewEntry("Successfully loaded profile data",
+                "ProfileManager", System.Drawing.Color.Black);
         }
 
 
-        public static Int32 CountChildred(XmlReader node, XmlNodeType type) {
+        public static Int32 CountChildren(XmlReader node, XmlNodeType type) {
             Int32 count = 0;
             Int32 currentDepth = node.Depth;
             Int32 validDepth = currentDepth + 1;
@@ -151,7 +158,7 @@ namespace dynamic_dns_client {
                 writer.WriteStartElement("Triggers", "");
 
                 if(p.Triggers != null)
-                    foreach (Profile.Trigger t in p.Triggers) {
+                    foreach (Trigger t in p.Triggers) {
                         writer.WriteStartElement("Trigger", "");
 
                             writer.WriteStartElement("TriggerLoc", "");
@@ -176,6 +183,9 @@ namespace dynamic_dns_client {
             writer.WriteEndDocument();
 
             writer.Close();
+
+            Logger.Instance.NewEntry("Successfully written profile data to file", 
+                "ProfileManager", System.Drawing.Color.Black);
         }
     }
 }

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace dynamic_dns_client {
 
     public enum Registrar {
-        Namecheap,
-        None
+        None,
+        Namecheap
     }
 
     class HttpRegistrarString {

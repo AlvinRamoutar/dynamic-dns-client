@@ -60,11 +60,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HomeForm.cs">
+    <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="HomeForm.Designer.cs">
-      <DependentUpon>HomeForm.cs</DependentUpon>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Logger.cs" />
     <Compile Include="NewProfileControl.cs">
@@ -78,11 +78,18 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scheduler.cs" />
+    <Compile Include="TriggerModal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TriggerModal.Designer.cs">
+      <DependentUpon>TriggerModal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Trigger\TriggerExecutor.cs" />
     <Compile Include="Update\HttpRegistrarString.cs" />
     <Compile Include="Update\UpdateJob.cs" />
     <Compile Include="Update\RequestManager.cs" />
-    <EmbeddedResource Include="HomeForm.resx">
-      <DependentUpon>HomeForm.cs</DependentUpon>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NewProfileControl.resx">
       <DependentUpon>NewProfileControl.cs</DependentUpon>
@@ -96,6 +103,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="TriggerModal.resx">
+      <DependentUpon>TriggerModal.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

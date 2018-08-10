@@ -35,6 +35,5 @@ namespace dynamic_dns_client {
             LogBox.AppendText(msgText);
             LogBox.AppendText("\r\n");
         }
-
     }
 }

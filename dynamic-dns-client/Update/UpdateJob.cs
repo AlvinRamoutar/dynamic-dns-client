@@ -32,6 +32,14 @@ namespace dynamic_dns_client {
 
             profile.LastResponse = response;
             profile.LastUpdated = DateTime.UtcNow;
+
+            if (profile.Triggers != null) {
+                foreach(Trigger t in profile.Triggers) {
+                    Logger.Instance.NewEntry(string.Format("Executing custom trigger [{1}] for profile [{2}]",
+                        t.TriggerLoc, profile.Name), "UpdateJob", System.Drawing.Color.Black);
+                    new TriggerExecutor(t).Execute();
+                }
+            }
         }
     }
 }

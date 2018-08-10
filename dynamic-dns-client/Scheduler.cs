@@ -8,16 +8,17 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace dynamic_dns_client {
-    class Scheduler {
+
+    public enum Time {
+        Hours, Minutes, Seconds
+    }
+
+    class Scheduler : IDisposable {
 
         private static Scheduler instance = null;
         private static readonly object padlock = new object();
         private static StdSchedulerFactory sf;
         public static IScheduler s;
-
-        public enum Time {
-            Hours, Minutes, Seconds
-        }
 
         Scheduler() {
             Init();
@@ -73,6 +74,12 @@ namespace dynamic_dns_client {
 
             ITrigger builtTrigger = triggerBuild.StartNow().Build();
             s.ScheduleJob(job, builtTrigger);
+        }
+
+        public void Dispose() {
+            Logger.Instance.NewEntry("Shutting down scheduler", "Scheduler", System.Drawing.Color.DarkGray);
+            s.Shutdown();
+            s.Clear();
         }
     }
 }

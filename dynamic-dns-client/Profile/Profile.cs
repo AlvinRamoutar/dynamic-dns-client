@@ -1,10 +1,9 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using static dynamic_dns_client.Scheduler;
 
 namespace dynamic_dns_client {
 
-    internal class Profile {
+    public class Profile {
 
         internal string Name { get; set; }
         internal Registrar Registrar { get; set; }
@@ -18,16 +17,6 @@ namespace dynamic_dns_client {
 
         internal System.Net.Http.HttpResponseMessage LastResponse { get; set; }
         internal System.DateTime LastUpdated { get; set; }
-
-        internal struct Trigger {
-            public string TriggerLoc;
-            public string TriggerArgs;
-
-            public Trigger(string _triggerLoc, string _triggerArgs) {
-                TriggerLoc = _triggerLoc;
-                TriggerArgs = _triggerArgs;
-            }
-        }
 
         internal List<Trigger> Triggers { get; set; }
 
@@ -89,6 +78,11 @@ namespace dynamic_dns_client {
 
         public override int GetHashCode() {
             return this.GetHashCode();
+        }
+
+
+        public override string ToString() {
+            return this.Name;
         }
     }
 }
