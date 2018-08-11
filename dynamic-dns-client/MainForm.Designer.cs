@@ -25,7 +25,6 @@
         private void InitializeComponent() {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.profilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addNewProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,23 +55,15 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.optionsToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
-            // optionsToolStripMenuItem
-            // 
-            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
-            this.optionsToolStripMenuItem.Text = "Options";
-            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
-            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -106,7 +97,6 @@
             this.TSMIComboBox_Profiles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.TSMIComboBox_Profiles.Items.AddRange(new object[] {
             "Select a profile..."});
-            this.TSMIComboBox_Profiles.SelectedIndex = 0;
             this.TSMIComboBox_Profiles.Name = "TSMIComboBox_Profiles";
             this.TSMIComboBox_Profiles.Size = new System.Drawing.Size(152, 23);
             this.TSMIComboBox_Profiles.SelectedIndexChanged += new System.EventHandler(this.TSMIComboBox_Profiles_SelectedIndexChanged);
@@ -116,6 +106,7 @@
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
+            this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 
             // lbl_Status
             // 
@@ -139,8 +130,10 @@
             // 
             // richTBox_LogBox
             // 
+            this.richTBox_LogBox.BackColor = System.Drawing.Color.White;
             this.richTBox_LogBox.Location = new System.Drawing.Point(0, 0);
             this.richTBox_LogBox.Name = "richTBox_LogBox";
+            this.richTBox_LogBox.ReadOnly = true;
             this.richTBox_LogBox.Size = new System.Drawing.Size(456, 207);
             this.richTBox_LogBox.TabIndex = 0;
             this.richTBox_LogBox.Text = "";
@@ -178,7 +171,6 @@
 
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem profilesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addNewProfileToolStripMenuItem;

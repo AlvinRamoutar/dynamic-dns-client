@@ -22,7 +22,10 @@ namespace dynamic_dns_client {
         public TriggerModal(Trigger t) {
             InitializeComponent();
             TriggerExecLoc = t.TriggerLoc;
+            this.tBox_TriggerExecLoc.Text = TriggerExecLoc;
             TriggerExecArgs = t.TriggerArgs;
+            this.tBox_TriggerExecArgs.Text = TriggerExecArgs;
+
         }
 
         private void TriggerModal_FormClosing(object sender, FormClosingEventArgs e) {

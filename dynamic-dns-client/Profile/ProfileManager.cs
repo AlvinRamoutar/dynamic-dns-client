@@ -30,11 +30,11 @@ namespace dynamic_dns_client {
             try {
                 xmlDoc.Load(Properties.Settings.Default.ProfileDataFile);
             } catch (XmlException) {
-                Logger.Instance.NewEntry("Problem loading profile data from " + Properties.Settings.Default.ProfileDataFile +
+                MainForm.NewEntry("Problem loading profile data from " + Properties.Settings.Default.ProfileDataFile +
                     ". Perhaps the file has been modified?", "ProfileManager", System.Drawing.Color.Red);
                 return;
             } catch(System.IO.FileNotFoundException) {
-                Logger.Instance.NewEntry("Creating new file for Managed Profiles", "ProfileManager", System.Drawing.Color.Black);
+                MainForm.NewEntry("Creating new file for Managed Profiles", "ProfileManager", System.Drawing.Color.Black);
                 return;
             }
 
@@ -87,7 +87,7 @@ namespace dynamic_dns_client {
                 pTriggers = null;
             }
 
-            Logger.Instance.NewEntry("Successfully loaded profile data",
+            MainForm.NewEntry("Successfully loaded profile data",
                 "ProfileManager", System.Drawing.Color.Black);
         }
 
@@ -184,7 +184,7 @@ namespace dynamic_dns_client {
 
             writer.Close();
 
-            Logger.Instance.NewEntry("Successfully written profile data to file", 
+            MainForm.NewEntry("Successfully written profile data to file", 
                 "ProfileManager", System.Drawing.Color.Black);
         }
     }

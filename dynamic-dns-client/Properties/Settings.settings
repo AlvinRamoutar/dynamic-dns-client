@@ -11,5 +11,11 @@
     <Setting Name="Namecheap_HttpString" Type="System.String" Scope="Application">
       <Value Profile="(Default)">https://dynamicdns.park-your-domain.com/update?host={0}&amp;domain={1}&amp;password={2}&amp;ip={3}</Value>
     </Setting>
+    <Setting Name="OutgoingMailAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">atlastian.testing@gmail.com</Value>
+    </Setting>
+    <Setting Name="OutgoingMailPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)">991454918a!</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

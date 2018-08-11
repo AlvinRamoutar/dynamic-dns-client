@@ -9,49 +9,56 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace dynamic_dns_client {
+
+
+    delegate void UpdateLogBoxDelegate(string msg, Color color);
+    delegate void UpdateStatusLabelDelegate(string msg);
+
     public partial class MainForm : Form {
 
-        public MainForm() {
-            InitializeComponent();
+        public static MainForm _instance = null;
+        private static readonly object padlock = new object();
+        private static List<Tuple<string, string, Color>> logTQueue = new List<Tuple<string, string, Color>>();
 
-            Logger.Instance.Init(richTBox_LogBox);
-            Logger.Instance.NewEntry("Dynamic DNS Client", "Info", Color.Blue);
-            Logger.Instance.NewEntry("Alvin Ramoutar, 2018", "Info", Color.Blue);
-            Logger.Instance.NewEntry("=================", "Info", Color.Blue);
-
-            if (ProfileManager.ProfileList.Count != 0) {
-                foreach (Profile p in ProfileManager.ProfileList) {
-
-                    Scheduler.AddJob(p.Name, p.Name + "_Group", p.UpdatePeriod, p.UpdatePeriodType, p);
+        public static MainForm Instance {
+            get {
+                lock (padlock) {
+                    if (_instance == null) {
+                        _instance = new MainForm();
+                        _instance.Init();
+                    }
+                    return _instance;
                 }
             }
-            
-            /*
-            RequestManager rM = RequestManager.Instance;
-            Task t = Task.Factory.StartNew(async () => {
+        }
 
-                string r = await rM.IPIfyRequest();
-                MessageBox.Show(r);
+        MainForm() {
+            InitializeComponent();
+        }
 
-            });
-            */
 
-            /*
-            ProfileManager.ProfileList.Add(new Profile("N", Registrar.Namecheap, "a", "a", "s", 2, Scheduler.Time.Seconds, "sd", false));
+        public void Init() {
+            // Update logBox with queued logs
+            foreach (Tuple<string, string, Color> t in logTQueue.ToArray())
+                NewEntry(t.Item1, t.Item2, t.Item3);
 
-            List<Profile.Trigger> tmpTrigList = new List<Profile.Trigger>();
-            tmpTrigList.Add(new Profile.Trigger("loc", "args"));
-
-            ProfileManager.ProfileList.Add(new Profile("N", Registrar.Namecheap, "a", "a", "s", 2, Scheduler.Time.Seconds, "sd", false, tmpTrigList));
-
-            ProfileManager.Save();
-            */
+            NewEntry("=================", "Info", Color.Blue);
+            NewEntry("Dynamic DNS Client", "Info", Color.Blue);
+            NewEntry("Alvin Ramoutar, 2018", "Info", Color.Blue);
+            NewEntry("=================", "Info", Color.Blue);
 
             ProfileManager.Load();
 
-            //Scheduler.AddJob("TName", "TGroup", 10, Scheduler.Time.Seconds, ProfileManager.ProfileList[0]);
-
+            if (ProfileManager.ProfileList.Count != 0) {
+                foreach (Profile p in ProfileManager.ProfileList) {
+                    Scheduler.AddJob(p.Name, p.Name + "_Group", p.UpdatePeriod, p.UpdatePeriodType, p);
+                    MainForm.NewEntry(
+                        string.Format("Added schedule job for '{0}'", p.Name), "MainForm", Color.Black);
+                }
+            }
         }
+
+
 
         /// <summary>
         /// Terminates application by calling Dispose on all managers
@@ -65,7 +72,7 @@ namespace dynamic_dns_client {
             Scheduler.Instance.Dispose();
             RequestManager.Instance.Dispose();
             ProfileManager.Save();
-            Logger.Instance.NewEntry("Terminating application", "HomeForm", Color.DarkGray);
+            MainForm.NewEntry("Terminating application", "HomeForm", Color.DarkGray);
         }
 
 
@@ -128,6 +135,50 @@ namespace dynamic_dns_client {
                 this.tabControl.TabPages.Add(newTab);
                 this.tabControl.SelectedIndex = this.tabControl.TabPages.Count - 1;
             }
+        }
+
+
+        public static void NewEntry(string message, string source, Color color) {
+            string msgText = string.Format("[{0}][{1}] {2}",
+                DateTime.Now.ToLocalTime().ToShortTimeString().ToString(), source, message);
+
+            if (_instance == null) {
+                logTQueue.Add(Tuple.Create(message, source, color));
+            } else {
+                _instance.UpdateLogBox(msgText, color);
+                _instance.UpdateStatusLbl(msgText);
+            }
+        }
+
+
+        public void UpdateLogBox(string msg, Color color) {
+            if(this.richTBox_LogBox.InvokeRequired) {
+                UpdateLogBoxDelegate degate = new UpdateLogBoxDelegate(UpdateLogBox);
+                this.Invoke(degate, new object[] { msg, color });
+            } else {
+                this.richTBox_LogBox.ScrollToCaret();
+                this.richTBox_LogBox.SelectionColor = color;
+                this.richTBox_LogBox.AppendText(msg);
+                this.richTBox_LogBox.AppendText("\r\n");
+            }
+        }
+
+
+        public void UpdateStatusLbl(string msg) {
+            if (this.lbl_Status.InvokeRequired) {
+                UpdateStatusLabelDelegate degate = new UpdateStatusLabelDelegate(UpdateStatusLbl);
+                this.Invoke(degate, new object[] { msg });
+            }
+            else {
+                this.lbl_Status.Text = msg;
+            }
+        }
+
+
+
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e) {
+            MessageBox.Show("This would open a webpage to this projects' GitHub repository. " +
+                "Only available after 2018/08/17.", "Help Prompt");
         }
     }
 }

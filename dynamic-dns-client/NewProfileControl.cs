@@ -19,6 +19,7 @@ namespace dynamic_dns_client {
         public NewProfileControl() {
             InitializeComponent();
             LoadComboBoxes();
+            IsNewProfile = true;
         }
 
         public NewProfileControl(object profile) {
@@ -57,7 +58,6 @@ namespace dynamic_dns_client {
             this.comboBox_Registrar.SelectedIndex = 0;
 
             // UpdateFrequency Combo Box
-            this.comboBox_UpdatePeriod.Items.Add("30 Seconds (TESTING ONLY)");
             this.comboBox_UpdatePeriod.Items.Add("1 Minutes");
             this.comboBox_UpdatePeriod.Items.Add("15 Minutes");
             this.comboBox_UpdatePeriod.Items.Add("30 Minutes");
@@ -82,27 +82,28 @@ namespace dynamic_dns_client {
         }
 
         private void lBox_Triggers_DoubleClick(object sender, EventArgs e) {
-            if (lBox_Triggers.SelectedItem.ToString() == NEW_TRIGGER_TEXT) {
-                TriggerModal tm = new TriggerModal();
+            if (lBox_Triggers.SelectedItem != null)
+                if (lBox_Triggers.SelectedItem.ToString() == NEW_TRIGGER_TEXT) {
+                    TriggerModal tm = new TriggerModal();
 
-                if (tm.ShowDialog() == DialogResult.OK) {
-                    Trigger t = new Trigger(tm.TriggerExecLoc, tm.TriggerExecArgs);
-                    TriggerExecutor trigEx = new TriggerExecutor(t);
-                    this.lBox_Triggers.Items.Insert(this.lBox_Triggers.Items.Count - 1, t);
-                }
-            } else if(lBox_Triggers.SelectedItem != null) {
-                Trigger t = (Trigger)lBox_Triggers.SelectedItem;
-                TriggerModal tm = new TriggerModal(t);
+                    if (tm.ShowDialog() == DialogResult.OK) {
+                        Trigger t = new Trigger(tm.TriggerExecLoc, tm.TriggerExecArgs);
+                        //TriggerExecutor trigEx = new TriggerExecutor(t, _Profile);
+                        this.lBox_Triggers.Items.Insert(this.lBox_Triggers.Items.Count - 1, t);
+                    }
+                } else if(lBox_Triggers.SelectedItem != null) {
+                    Trigger t = (Trigger)lBox_Triggers.SelectedItem;
+                    TriggerModal tm = new TriggerModal(t);
 
-                if (tm.ShowDialog() == DialogResult.OK) {
-                    int index = this.lBox_Triggers.SelectedIndex;
-                    this.lBox_Triggers.Items.Remove(this.lBox_Triggers.SelectedItem);
-                    t = new Trigger(tm.TriggerExecLoc, tm.TriggerExecArgs);
-                    TriggerExecutor trigEx = new TriggerExecutor(t);
-                    this.lBox_Triggers.Items.Insert(index, t);
+                    if (tm.ShowDialog() == DialogResult.OK) {
+                        int index = this.lBox_Triggers.SelectedIndex;
+                        this.lBox_Triggers.Items.Remove(this.lBox_Triggers.SelectedItem);
+                        t = new Trigger(tm.TriggerExecLoc, tm.TriggerExecArgs);
+                        this.lBox_Triggers.Items.Insert(index, t);
+                    }
                 }
-            }
         }
+
 
         private void btn_Save_Click(object sender, EventArgs e) {
             int tUF = 0;
@@ -154,6 +155,8 @@ namespace dynamic_dns_client {
                 ProfileManager.ProfileList.RemoveAt(TSMIIndex);
                 ProfileManager.ProfileList.Insert(TSMIIndex, _Profile);
             }
+
+            Scheduler.ReplaceJob(_Profile);
             currentPage.Dispose();
         }
 
@@ -163,7 +166,7 @@ namespace dynamic_dns_client {
         }
 
         private void btn_Delete_Click(object sender, EventArgs e) {
-            Scheduler.s.DeleteJob(new Quartz.JobKey(_Profile.Name));
+            Scheduler.DeleteJob(_Profile);
             ProfileManager.ProfileList.Remove(_Profile);
             btn_Discard_Click(sender, e);
         }

@@ -53,5 +53,29 @@ namespace dynamic_dns_client.Properties {
                 return ((string)(this["Namecheap_HttpString"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("atlastian.testing@gmail.com")]
+        public string OutgoingMailAddress {
+            get {
+                return ((string)(this["OutgoingMailAddress"]));
+            }
+            set {
+                this["OutgoingMailAddress"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("991454918a!")]
+        public string OutgoingMailPassword {
+            get {
+                return ((string)(this["OutgoingMailPassword"]));
+            }
+            set {
+                this["OutgoingMailPassword"] = value;
+            }
+        }
     }
 }

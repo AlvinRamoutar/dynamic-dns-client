@@ -32,18 +32,21 @@ namespace dynamic_dns_client {
 
 
         public async Task<HttpResponseMessage> Request(string reqStr, string header) {
-            requester.BaseAddress = new Uri(reqStr);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, reqStr);
+            request.Headers.Accept.Clear();
+            request.Headers.Accept.Add(
+                new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(header));
 
-            // Add an Accept header for JSON format.
-            requester.DefaultRequestHeaders.Accept.Add(
-            new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(header));
+            HttpResponseMessage response = await requester.SendAsync(
+                request, System.Threading.CancellationToken.None);
 
-
-            HttpResponseMessage response = requester.GetAsync("").Result;
             return response;
         }
 
 
+        /*
+         * POssibly redundant
+         * 
         public async Task<string> Request(string reqStr, string urlParams, string header) {
             requester.BaseAddress = new Uri(reqStr);
 
@@ -61,6 +64,7 @@ namespace dynamic_dns_client {
                 return string.Format("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
             }
         }
+        */
 
 
         public async Task<string> IPIfyRequest() {
@@ -82,7 +86,7 @@ namespace dynamic_dns_client {
         }
 
         public void Dispose() {
-            Logger.Instance.NewEntry("Halting all update requests", "RequestManager", Color.DarkGray);
+            MainForm.NewEntry("Halting all update requests", "RequestManager", Color.DarkGray);
             requester.Dispose();
         }
     }

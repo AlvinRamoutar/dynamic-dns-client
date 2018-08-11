@@ -72,12 +72,26 @@ namespace dynamic_dns_client {
             }
 
 
-            ITrigger builtTrigger = triggerBuild.StartNow().Build();
+            ITrigger builtTrigger = triggerBuild.Build();
             s.ScheduleJob(job, builtTrigger);
         }
 
+
+        public static void ReplaceJob(Profile profile) {
+            s.DeleteJob(new JobKey(profile.Name, profile.Name + "_Group"));
+            AddJob(profile.Name, profile.Name + "_Group", profile.UpdatePeriod, profile.UpdatePeriodType, profile);
+            MainForm.NewEntry(
+                string.Format("Updating job {0}", profile.Name), "Scheduler", System.Drawing.Color.Orange);
+        }
+
+        public static void DeleteJob(Profile profile) {
+            s.DeleteJob(new JobKey(profile.Name, profile.Name + "_Group"));
+            MainForm.NewEntry(
+                string.Format("Deleting job {0}", profile.Name), "Scheduler", System.Drawing.Color.Orange);
+        }
+
         public void Dispose() {
-            Logger.Instance.NewEntry("Shutting down scheduler", "Scheduler", System.Drawing.Color.DarkGray);
+            MainForm.NewEntry("Shutting down scheduler", "Scheduler", System.Drawing.Color.DarkGray);
             s.Shutdown();
             s.Clear();
         }
