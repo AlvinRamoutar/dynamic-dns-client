@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
 
+/// <summary>
+/// Author: Alvin Ramoutar (991454918)
+/// Date:   2018/08/13
+/// Desc:   A Dynamic DNS Client for registrars which provide a web service
+///         for updates via HTTP.
+///         Intended for those running hosted applications on a network
+///         with dynamic addressing (Public IP changes now and then).
+/// </summary>
 namespace dynamic_dns_client {
 
+    /// <summary>
+    /// Trigger structre comprising of its location, and arguments (if any)
+    /// </summary>
     public struct Trigger {
         public string TriggerLoc;
         public string TriggerArgs;
@@ -21,17 +28,36 @@ namespace dynamic_dns_client {
         }
     }
 
+    /// <summary>
+    /// Executes a particular trigger using System.Diagnostics.Process
+    /// Also contains logic for creating an e-mail trigger
+    /// </summary>
     class TriggerExecutor {
 
+        #region Properties and Fields
         private Trigger _Trigger;
         private Profile _Profile;
+        #endregion
 
+        #region Constructors
         public TriggerExecutor(Trigger t, Profile p) {
             this._Trigger = t;
             this._Profile = p;
         }
+        #endregion
 
+        #region Methods
+        /// <summary>
+        /// Executes a particular trigger using System.Diagnostics.Process
+        /// Process object is created using:
+        /// - Trigger location (should be a full path to an executable)
+        /// - Trigger arguments (if any, optional)
+        /// To specify an e-mail trigger:
+        /// - Trigger location = 'email'
+        /// - Trigger args is the notifier's e-mail
+        /// </summary>
         public void Execute() {
+            // Execute process in new thread as to not halt executing thread
             Task t = new Task(() => {
                 try {
                     if (_Trigger.TriggerLoc == "email") {
@@ -53,7 +79,16 @@ namespace dynamic_dns_client {
             t.Start();
         }
 
+        /// <summary>
+        /// Executes a mailer trigger using SimpleMailer
+        /// To specify an e-mail trigger:
+        /// - Trigger location = 'email'
+        /// - Trigger args is the notifier's e-mail
+        /// Account used for outgoing e-mails is identified in settings
+        /// </summary>
         public void ExecuteMailer() {
+
+            // Format HTML of message body
             string body = string.Format(
                 "<p>Hello,<p>" +
                 "<p>Your domain <strong>{0}</strong> has undergone a DNS record update.</p><br>" +
@@ -70,6 +105,7 @@ namespace dynamic_dns_client {
                 _Profile.IPAddress,
                 Properties.Settings.Default.AppName);
 
+            // Mail on construction of SimpleMailer object
             new SimpleMailer(body, 
                 string.Format("{0} Update ({1})", _Profile.Name, _Profile.Domain), 
                 _Trigger.TriggerArgs);
@@ -79,6 +115,6 @@ namespace dynamic_dns_client {
                     _Trigger.TriggerArgs),
                 "TriggerExecutor", System.Drawing.Color.Orange);
         }
-
+        #endregion
     }
 }

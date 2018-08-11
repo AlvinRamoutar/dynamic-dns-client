@@ -1,4 +1,9 @@
 ﻿namespace dynamic_dns_client {
+
+    /// <summary>
+    /// Form designer for custom form control for Profiles
+    /// Contains form controls specific for modifying Profiles
+    /// </summary>
     partial class NewProfileControl {
         /// <summary> 
         /// Required designer variable.

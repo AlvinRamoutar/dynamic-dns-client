@@ -1,4 +1,12 @@
-﻿namespace dynamic_dns_client {
+﻿/// <summary>
+/// Author: Alvin Ramoutar (991454918)
+/// Date:   2018/08/13
+/// Desc:   A Dynamic DNS Client for registrars which provide a web service
+///         for updates via HTTP.
+///         Intended for those running hosted applications on a network
+///         with dynamic addressing (Public IP changes now and then).
+/// </summary>
+namespace dynamic_dns_client {
     partial class TriggerModal {
         /// <summary>
         /// Required designer variable.
